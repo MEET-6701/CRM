@@ -48,6 +48,7 @@ new
                 ->latest()
                 ->paginate(50),
             'users' => User::all(), // For assignment dropdown
+            'enquiry_statuses' => Dropdown::where('type', 'Order Status')->where('active', true)->orderBy('value')->get(),
         ];
     }
 }; ?>
@@ -98,8 +99,8 @@ new
                                     <td class="px-3 py-2">
                                         <select wire:change="updateStatus({{ $enquiry->id }}, $event.target.value)"
                                             class="text-xs border-gray-300 rounded shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white py-1 pl-2 pr-6">
-                                            @foreach(['New', 'In Progress', 'Quotation Sent', 'Closed Won', 'Closed Lost'] as $status)
-                                                <option value="{{ $status }}" {{ $enquiry->order_status == $status ? 'selected' : '' }}>{{ $status }}</option>
+                                            @foreach($enquiry_statuses as $status)
+                                                <option value="{{ $status->value }}" {{ $enquiry->order_status == $status->value ? 'selected' : '' }}>{{ $status->value }}</option>
                                             @endforeach
                                         </select>
                                     </td>

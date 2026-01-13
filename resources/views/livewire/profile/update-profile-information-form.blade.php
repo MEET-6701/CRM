@@ -10,7 +10,8 @@ use function Livewire\Volt\state;
 
 state([
     'name' => fn() => auth()->user()->name,
-    'email' => fn() => auth()->user()->email
+    'email' => fn() => auth()->user()->email,
+    'prefix' => fn() => auth()->user()->prefix,
 ]);
 
 $updateProfileInformation = function () {
@@ -19,6 +20,7 @@ $updateProfileInformation = function () {
     $validated = $this->validate([
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($user->id)],
+        'prefix' => ['nullable', 'string', 'max:2'],
     ]);
 
     $user->fill($validated);
